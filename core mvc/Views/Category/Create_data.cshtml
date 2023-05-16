@@ -1,0 +1,52 @@
+﻿<!--When you use model Category in Create.cshtml, you are indicating to the view that it should expect a
+Category object to be passed to it from the controller. The Category object represents the data that the
+user will enter into the form in order to create a new category.-->
+
+@model Category
+
+<!----In ASP.NET Core, the Entity Framework Core (EF Core) framework is used for database operations. 
+    The EF Core framework uses a set of conventions to determine the default table name for each entity type.
+    By default, EF Core will use the pluralized name of the entity type as the table name.
+
+For example, if you have an entity type called "Category", EF Core will look for a table called "Categories" 
+in the database.-->
+
+@{
+    ViewData["Title"] = "Create_data";
+}
+
+<form method="post">
+<div class="border p-3 mt-4">
+    <div class="row pb-2">
+        <h2 class="text-primary">Create Category</h2>
+    </div>
+     <div asp-validation-summary="All">
+
+     </div>
+    <div class="mb-3">
+        <label asp-for="Name">NAME</label>
+        <input asp-for="Name" class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="DisplayOrder" >ORDER NAME</label>
+        <input asp-for="DisplayOrder" class="form-control">
+        <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
+        <a asp-controller="category" asp-action="index" class="btn btn-secondary">BACK TO INDEX</a>
+    </div>
+</div>
+</form>
+
+
+
+ <!---include a partial view that contains the necessary client-side validation scripts.---->
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+}
+

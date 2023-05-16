@@ -1,0 +1,72 @@
+﻿@model List<Category>                       //small letter model here
+
+<!--By using the model directive, you are declaring the type of the model that the view expects.
+    This allows the Razor engine to provide Intellisense and other helpful features that make working with the model easier.
+    
+    In the view file, you are defining a strongly typed view by specifying the model type using the  model directive. 
+    This tells Razor that the view is strongly typed and expects a model of type List<Student>
+    -->
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<partial name="_Notification" />
+
+<div class="container p-3">
+   <div class="row pt-4">
+       <div class= " col-6">
+            <h2 class="text-primary">Category</h2>
+       </div>
+       <div class="col-6 text-end">
+            <a asp-controller="Category" asp-action="Create_data" class="btn btn-primary"><i class="bi bi-plus-circle"></i>  Create New Category</a>
+       </div>
+   </div>
+</div>
+     </br>
+     </br>
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                CATEGORY NAME
+            </th>
+            <th>
+                DISPLAY ORDER
+            </th>
+            <th>
+                CREATED DATE
+            </th>
+            <th>
+                ACTIONS    
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model)                  //capital letter Model here
+        {
+            <tr>
+                <td>
+                    @obj.Name
+                </td>
+                <td>
+                    @obj.DisplayOrder
+                </td>
+                <td>
+                    @obj.CraeatedDateTime
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-controller="category" class="btn btn-primary" asp-action="Edit" asp-route-id="@obj.Id"><i class="bi bi-pencil-square"></i>Edit</a>
+                    </div>
+                
+                    <div class="btn-group" role="group">
+                        <a asp-controller="category" class="btn btn-danger" asp-action="Delete" asp-route-id="@obj.Id"><i class="bi bi-trash"></i>Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
