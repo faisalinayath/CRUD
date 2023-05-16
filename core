@@ -28,4 +28,58 @@ namespace advanced_coding
             optionsBuilder.UseSqlServer(strConnection);
         }
     }
+    
+    using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace advanced_coding
+{
+    internal class Program
+    {
+        private static void Main(string[] args)
+        {
+            using (var context = new BookContext())
+            {
+                // Create a new book
+                var book = new BookStore
+                {
+                    Title = "Sample Book",
+                    Author = "John Doe",
+                    Price = "$9.99"
+                };
+                context.Books.Add(book);
+                context.SaveChanges();
+                Console.WriteLine("Book created successfully!");
+
+                // Retrieve all books
+                var allBooks = context.Books.ToList();
+                Console.WriteLine("All Books:");
+                foreach (var b in allBooks)
+                {
+                    Console.WriteLine($"BookId: {b.BookId}, Title: {b.Title}, Author: {b.Author}, Price: {b.Price}");
+                }
+
+                // Update a book
+                var bookToUpdate = context.Books.FirstOrDefault(b => b.BookId == 1);
+                if (bookToUpdate != null)
+                {
+                    bookToUpdate.Price = "$14.99";
+                    context.SaveChanges();
+                    Console.WriteLine("Book updated successfully!");
+                }
+
+                // Delete a book
+                var bookToDelete = context.Books.FirstOrDefault(b => b.BookId == 1);
+                if (bookToDelete != null)
+                {
+                    context.Books.Remove(bookToDelete);
+                    context.SaveChanges();
+                    Console.WriteLine("Book deleted successfully!");
+                }
+            }
+        }
+    }
+}
+
 }
