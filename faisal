@@ -1,0 +1,56 @@
+controller;-
+
+ public class FirstController : Controller
+    {
+       
+
+        public IActionResult Index()
+        {
+            Employee myObj = new Employee
+            {
+                EmpId=1,
+                Name="Faisal Inayath",
+                Address="JC Nagar, Bangalore",
+                Salary=25000,
+                Phone=9008197150
+            };
+
+            Employee myObj1 = new Employee
+            {
+                EmpId = 2,
+                Name = "xyz",
+                Address = "RT Nagar, Bangalore",
+                Salary = 25000,
+                Phone = 9972862148
+            };
+
+            List<Employee> lst=new List<Employee>();
+            lst.Add(myObj);
+            lst.Add(myObj1);
+            
+            return View();
+        }
+        
+        view:-
+        
+        @model List<Employee>
+            <table>
+        <tr>
+            <th>EmpId</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Salary</th>
+            <th>Phone</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            @foreach(var x in Model)
+            {
+            <td>@x.EmpId</td>
+            <td>@x.Name</td>
+            <td>@x.Address</td>
+            <td>@x.Salary</td>
+            <td>@x.Phone</td>
+            }
+        </tr>
+    </table>
