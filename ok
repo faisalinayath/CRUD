@@ -1,0 +1,52 @@
+//link
+ <a asp-controller="first" asp-action="edit" asp-route-id="@x.Id"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
+  
+  //controller
+       public IActionResult Edit()
+        {
+            return View();
+        }
+        
+        //view
+        
+        @model LoanApp
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<form method="post" asp-controller="first" asp-action="create">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create Category</h2>
+        </div>
+        <div asp-validation-summary="All">
+        </div>
+        <div class="mb-3">
+            <label asp-for="Applicant">Applicant</label>
+            <input type="text" asp-for="Applicant" class="form-control" />
+
+        </div>
+        <div class="mb-3">
+            <label asp-for="AmountOfLoan">Amount Of Loan</label>
+            <input type="text" asp-for="AmountOfLoan" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label asp-for="KindOfLoan">Kind Of Loan</label>
+            <input type="text" asp-for="KindOfLoan" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label asp-for="IsEligible">Is Eligible</label>
+            <input type="text" asp-for="IsEligible" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label asp-for="FailureDescription">Failure Description</label>
+            <input type="text" asp-for="FailureDescription" class="form-control">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">SUBMIT</button>
+            <a asp-controller="category" asp-action="index" class="btn btn-secondary">BACK TO INDEX</a>
+        </div>
+    </div>
+</form>
+
+
