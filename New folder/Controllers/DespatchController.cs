@@ -1,23 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 using OfficeOpenXml;
-using FareedFruits.Models;
+using project.Models;
 
-namespace FareedFruits.Controllers
+
+namespace project.Controllers
 {
-	public class DespatchController : Controller
-	{
-        static DespatchController()
+    public class dispatchController: Controller
+    {
+        public IActionResult Index()
         {
-            // Set the license context
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            return View();
         }
 
-        public IActionResult Index()
-		{
-			return View();
-		}
+        static dispatchController()
+        {
+            // Set the license context
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+        }
 
-       public IActionResult StoreDataToExcel(dispatch formData)
+        public IActionResult StoreDataToExcel(dispatch formData)
         {
             // Set the file path where the Excel file will be stored
             var filePath = @"C:\New folder\FormEntries.xlsx";
