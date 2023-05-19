@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<form method="post" asp-controller="Despatch" asp-action="StoreDataToExcel">
+    <label for="field1">Field 1:</label>
+    <input type="text" id="field1" name="Field1" required>
+
+    <label for="field2">Field 2:</label>
+    <input type="text" id="field2" name="Field2" required>
+
+    <button type="submit">Submit</button>
+</form>
