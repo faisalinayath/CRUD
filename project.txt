@@ -1,0 +1,3 @@
+create a web api to store the info about a hotel and its menu items.
+create an angular app that consumes this web api and get the menu items, allow the user to add itemsto his/her cart and finally generate the bill for the billed items 
+P.S. This web site is for a single hotel and the scope of multiple hotels is not here 
