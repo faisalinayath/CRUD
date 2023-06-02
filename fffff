@@ -1,20 +1,19 @@
-const[DishName,setDishName]=useState('')
-const[Description,setDescription]=useState('')
-const[DishPrice,setDishPrice]=useState('')
 
-<Container>
-      <Row >
-        <Col>
-            <input type="text" className="form-control" placeholder="Enter Dish Name" value={DishName}  onChange={(e)=>setDishName(e.target.value)}/>
-        </Col>
-        <Col>
-            <input type="text" className="form-control" placeholder="Enter Dish Description" value={Description} onChange={(e)=>setDescription(e.target.value)}/>
-        </Col>
-        <Col>
-            <input type="text" className="form-control" placeholder="Enter Dish Price" value={DishPrice} onChange={(e)=>setDishPrice(e.target.value)}/>
-        </Col>
-        <Col>
-            <button className="btn btn-primary">Submit</button>
-         </Col>
-      </Row>
-    </Container>
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    //setData(empData);
+    getData();
+  }, []);
+
+
+// <------------------------------------ Used To Connect To The Web Api -----------------------------> 
+
+const getData=() =>{
+    axios.get('https://localhost:7041/api/cards/')
+    .then((result) => {
+        setData(result.data)
+    }).catch((error)=>{
+        console.log(error)
+    })
+}
