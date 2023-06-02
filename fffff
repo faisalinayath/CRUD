@@ -1,19 +1,14 @@
+const handleSave=()=>{
+    const url='https://localhost:7041/api/cards/';
+    const data={
+        "dishName": DishName,
+        "description": Description,
+        "dishPrice": DishPrice
+    }
 
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    //setData(empData);
-    getData();
-  }, []);
-
-
-// <------------------------------------ Used To Connect To The Web Api -----------------------------> 
-
-const getData=() =>{
-    axios.get('https://localhost:7041/api/cards/')
-    .then((result) => {
-        setData(result.data)
-    }).catch((error)=>{
-        console.log(error)
+    axios.post(url,data)
+    .then((result)=>{
+        getData();
+        clear();
     })
 }
