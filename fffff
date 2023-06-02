@@ -1,58 +1,20 @@
-import React, { useState, useEffect } from "react";
-import Table from 'react-bootstrap/Table';
+const[DishName,setDishName]=useState('')
+const[Description,setDescription]=useState('')
+const[DishPrice,setDishPrice]=useState('')
 
-const CRUD = () => {
-  const empData = [
-    {
-      Id: 1,
-      DishName: 'biryani',
-      Description: 'delicious hyderabadi biryani',
-      DishPrice: 200
-    },
-    {
-      Id: 2,
-      DishName: 'Al-Faham',
-      Description: 'delicious AL-Faham',
-      DishPrice: 250
-    }
-  ];
-
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    setData(empData);
-  }, []);
-
-  return (
-    <>
-      <Table striped>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Dish Name</th>
-            <th>Description</th>
-            <th>Dish Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data && data.length > 0 ? (
-            data.map((item, index) => (
-              <tr key={index}>
-                <td>{item.Id}</td>
-                <td>{item.DishName}</td>
-                <td>{item.Description}</td>
-                <td>{item.DishPrice}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">Loading</td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
-    </>
-  );
-};
-
-export default CRUD;
+<Container>
+      <Row >
+        <Col>
+            <input type="text" className="form-control" placeholder="Enter Dish Name" value={DishName}  onChange={(e)=>setDishName(e.target.value)}/>
+        </Col>
+        <Col>
+            <input type="text" className="form-control" placeholder="Enter Dish Description" value={Description} onChange={(e)=>setDescription(e.target.value)}/>
+        </Col>
+        <Col>
+            <input type="text" className="form-control" placeholder="Enter Dish Price" value={DishPrice} onChange={(e)=>setDishPrice(e.target.value)}/>
+        </Col>
+        <Col>
+            <button className="btn btn-primary">Submit</button>
+         </Col>
+      </Row>
+    </Container>
