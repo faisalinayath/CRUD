@@ -1,3 +1,13 @@
+const getData=() =>{
+    axios.get('https://localhost:7041/api/cards/')
+    .then((result) => {
+        setData(result.data)
+    }).catch((error)=>{
+        console.log(error)
+    })
+}
+
+
 const handleSave=()=>{
     const url='https://localhost:7041/api/cards/';
     const data={
