@@ -1,62 +1,72 @@
-<form method="post" enctype="multipart/form-data" asp-controller="Properties" asp-action="Create">
+View:- 
+     <form method="post" enctype="multipart/form-data" asp-controller="Properties" asp-action="Create">
 
-    <div class="user-box">
+            <div class="user-box">
 
-        <input type="text" required asp-for="Name">
+                <input type="text" required asp-for="Name">
 
-        <label>Name Of The Property</label>
+                <label>Name Of The Property</label>
 
-    </div>
+            </div>
 
-    <div class="user-box">
+            <div class="user-box">
 
-        <input type="text" required asp-for="Price">
+                <input type="text" required asp-for="Price">
 
-        <label>Price</label>
+                <label>Price</label>
 
-    </div>
+            </div>
 
-    <div class="user-box">
+            <div class="user-box">
 
-        <input type="text" required asp-for="Description">
+                <input type="text" required asp-for="Description">
 
-        <label>Description</label>
+                <label>Description</label>
 
-    </div>
+            </div>
 
-    <div class="user-box">
+            <div class="user-box">
 
-        <input type="file" accept="image/*" asp-for="Image">
+                <input type="file" accept="image/*" asp-for="Image_Path">
 
-    </div>
+            </div>
 
-    <div class="user-box">
+            <div class="user-box">
 
-        <input type="text" required asp-for="SellerName">
+                <input type="text" required asp-for="Seller_Name">
 
-        <label>Seller Name</label>
+                <label>Seller Name</label>
 
-    </div>
+            </div>
 
-    <div class="user-box">
+            <div class="user-box">
 
-        <input type="text" required asp-for="SellerPhoneNumber">
+                <input type="text" required asp-for="Seller_Phone">
 
-        <label>Seller Phone Number</label>
+                <label>Seller Phone Number</label>
 
-    </div>
+            </div>
 
-    <div class="user-box">
+            <div class="user-box">
 
-        <input type="text" required asp-for="SellerEmailId">
+                <input type="text" required asp-for="Seller_Email_Id">
 
-        <label>Seller Email Id</label>
+                <label>Seller Email Id</label>
 
-    </div>
+            </div>
 
-    <button type="submit">Submit</button>
+            <button type="submit">Submit</button>
 
-    <a href="#" asp-controller="Properties" asp-action="Index">Return</a>
+            <a asp-controller="Properties" asp-action="Index">Return</a>
 
-</form>
-
+        </form>
+        
+        COntroller:-
+         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Property obj)
+        {
+            _db.Property.Add(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
