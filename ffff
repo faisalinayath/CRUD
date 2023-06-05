@@ -1,56 +1,30 @@
- HttpPost]
 
+        [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> Create(Property obj )
-
+        public async Task<IActionResult> Create(Property obj)
         {
-            
+            if (ModelState.IsValid)
             {
-                if(obj.Photo != null)
+                if (obj.Photo != null)
                 {
-                    string folder = "ImagesUpload";
-                    folder += obj.Photo.FileName+Guid.NewGuid().ToString();               
-                    
-                    //there will be a clash if two image files with the same name are uploaded , so we use Guid to attach  unique name 
-                    //to the uploaded image
-
+                    string folder = "ImagesUpload/";
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + obj.Photo.FileName;
                     string serverFolder = Path.Combine(_hostEnvironment.WebRootPath, folder);
+                    string filePath = Path.Combine(serverFolder, uniqueFileName);
 
-                    await obj.Photo.CopyToAsync(new FileStream(serverFolder,FileMode.Create));
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await obj.Photo.CopyToAsync(fileStream);
+                    }
+
+                    // Update the Image_Path property of the obj
+                    obj.Image_Path = Path.Combine(folder, uniqueFileName);
+
+                    _db.Property.Add(obj);
+                    _db.SaveChanges();
+                    return RedirectToAction("Index","Home");
                 }
-           
-
-
-
-
-jdjskskjsjsjs
-
-
-
-
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Create(Property obj)
-{
-    if (ModelState.IsValid)
-    {
-        if (obj.Photo != null)
-        {
-            string folder = "ImagesUpload/";
-            string uniqueFileName = Guid.NewGuid().ToString() + "_" + obj.Photo.FileName;
-            string serverFolder = Path.Combine(_hostEnvironment.WebRootPath, folder);
-            string filePath = Path.Combine(serverFolder, uniqueFileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await obj.Photo.CopyToAsync(fileStream);
             }
 
-            // Update the Image_Path property of the obj
-            obj.Image_Path = Path.Combine(folder, uniqueFileName);
+            return View(obj);
         }
-    }
-
-    return View(obj);
-}
