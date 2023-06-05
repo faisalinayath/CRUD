@@ -1,22 +1,25 @@
-namespace PropDealsNew.Models
-{
-    public class Property
-    {
-        public int Id { get; set; }
+ [HttpPost]
 
-        public string Name { get; set; }
+        [ValidateAntiForgeryToken]
 
-        public long Price { get; set; }
+        public async Task<IActionResult> Create(Property obj )
 
-        public string Description { get; set; }
+        {
+            if(ModelState.IsValid)
+            {
+                if(obj.Photo != null)
+                {
+                    string folder = "ImagesUpload";
+                    folder += obj.Photo.FileName+Guid.NewGuid().ToString();               
+                    
+                    //there will be a clash if two image files with the same name are uploaded , so we use Guid to attach  unique name 
+                    //to the uploaded image
 
-        public string Image_Path { get; set; }
+                    string serverFolder = Path.Combine(_hostEnvironment.WebRootPath, folder);
 
-        public string Seller_Name { get; set; }
-        public string Seller_Phone { get; set; }
+                    await obj.Photo.CopyToAsync(new FileStream(serverFolder,FileMode.Create));
+                }
+            }
+            return View(obj);
 
-        public string Seller_Email_Id { get; set; }
-
-        public IFormFile Photo { get; set; }
-    }
-}
+        }
