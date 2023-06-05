@@ -1,47 +1,65 @@
-        <form method="post" asp-controller="Properties" asp-action="Create">
-            <div class="user-box">
-                <input type="text"  required="">
-                <label>Name Of The Property</label>
-            </div>
-            <div class="user-box">
-                <input type="text"  required="">
-                <label>Price</label>
-            </div>
-            <div class="user-box">
-                <input type="text" required="">
-                <label>Description</label>
-            </div>
-            <div class="user-box">
-                <input type="file" id="img" name="img" accept="image/*">
-              
-            </div>
-              <div class="user-box">
-                <input type="text" required="" >
-                <label>Seller Name</label>
+using System;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using YourProject.Models; // Replace "YourProject" with your project's namespace
 
-            </div>
-            <div class="user-box">
-                <input type="text" required="" >
-                <label>Seller Phone NUmber</label>
+public class PropertiesController : Controller
+{
+    private readonly IWebHostEnvironment _hostEnvironment;
+    private readonly YourDbContext _dbContext; // Replace "YourDbContext" with your actual DbContext
 
-            </div>
-            <div class="user-box">
-                <input type="text" required="">
-                <label>Seller Email Id</label>
+    public PropertiesController(IWebHostEnvironment hostEnvironment, YourDbContext dbContext)
+    {
+        _hostEnvironment = hostEnvironment;
+        _dbContext = dbContext;
+    }
 
-                
-            </div>
-            <a href="#">
-                <span></span>
-                <span></span>
-                <span></span>
-                Submit
-            </a>
+    // GET: /Properties/Create
+    public IActionResult Create()
+    {
+        return View();
+    }
 
-            <a style="float:right" asp-controller="Properties" asp-action="index">
-                <span></span>
-                <span></span>
-                <span></span>
-                Return
-            </a>
-        </form>
+    // POST: /Properties/Create
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(PropertyViewModel model, IFormFile image)
+    {
+        if (ModelState.IsValid)
+        {
+            string uniqueFileName = null;
+            if (image != null)
+            {
+                string uploadsDir = Path.Combine(_hostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+                string filePath = Path.Combine(uploadsDir, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    image.CopyTo(fileStream);
+                }
+            }
+
+            // Save the property details to the database
+            Property property = new Property
+            {
+                Name = model.Name,
+                Price = model.Price,
+                Description = model.Description,
+                ImagePath = uniqueFileName != null ? "images/" + uniqueFileName : null,
+                SellerName = model.SellerName,
+                SellerPhoneNumber = model.SellerPhoneNumber,
+                SellerEmailId = model.SellerEmailId
+            };
+
+            _dbContext.Properties.Add(property);
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("Index", "Properties");
+        }
+
+        return View(model);
+    }
+}
