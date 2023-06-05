@@ -1,39 +1,22 @@
-[HttpPost]
-
-[ValidateAntiForgeryToken]
-
-public IActionResult Create(Property obj, IFormFile image)
-
+namespace PropDealsNew.Models
 {
-
-    if (image != null && image.Length > 0)
-
+    public class Property
     {
+        public int Id { get; set; }
 
-        string uploadsDir = Path.Combine(_hostEnvironment.WebRootPath, "images");
+        public string Name { get; set; }
 
-        string uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+        public long Price { get; set; }
 
-        string filePath = Path.Combine(uploadsDir, uniqueFileName);
+        public string Description { get; set; }
 
-        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        public string Image_Path { get; set; }
 
-        {
+        public string Seller_Name { get; set; }
+        public string Seller_Phone { get; set; }
 
-            image.CopyTo(fileStream);
+        public string Seller_Email_Id { get; set; }
 
-        }
-
-        obj.Image_Path = "images/" + uniqueFileName;
-
+        public IFormFile Photo { get; set; }
     }
-
-    _db.Property.Add(obj);
-
-    _db.SaveChanges();
-
-    return RedirectToAction("Index");
-
 }
-
-
