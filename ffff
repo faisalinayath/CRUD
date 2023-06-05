@@ -1,11 +1,11 @@
- [HttpPost]
+ HttpPost]
 
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> Create(Property obj )
 
         {
-            if(ModelState.IsValid)
+            
             {
                 if(obj.Photo != null)
                 {
@@ -19,7 +19,38 @@
 
                     await obj.Photo.CopyToAsync(new FileStream(serverFolder,FileMode.Create));
                 }
-            }
-            return View(obj);
+           
 
+
+
+
+jdjskskjsjsjs
+
+
+
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(Property obj)
+{
+    if (ModelState.IsValid)
+    {
+        if (obj.Photo != null)
+        {
+            string folder = "ImagesUpload/";
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + obj.Photo.FileName;
+            string serverFolder = Path.Combine(_hostEnvironment.WebRootPath, folder);
+            string filePath = Path.Combine(serverFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await obj.Photo.CopyToAsync(fileStream);
+            }
+
+            // Update the Image_Path property of the obj
+            obj.Image_Path = Path.Combine(folder, uniqueFileName);
         }
+    }
+
+    return View(obj);
+}
