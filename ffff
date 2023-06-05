@@ -1,1 +1,39 @@
-a
+[HttpPost]
+
+[ValidateAntiForgeryToken]
+
+public IActionResult Create(Property obj, IFormFile image)
+
+{
+
+    if (image != null && image.Length > 0)
+
+    {
+
+        string uploadsDir = Path.Combine(_hostEnvironment.WebRootPath, "images");
+
+        string uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+
+        string filePath = Path.Combine(uploadsDir, uniqueFileName);
+
+        using (var fileStream = new FileStream(filePath, FileMode.Create))
+
+        {
+
+            image.CopyTo(fileStream);
+
+        }
+
+        obj.Image_Path = "images/" + uniqueFileName;
+
+    }
+
+    _db.Property.Add(obj);
+
+    _db.SaveChanges();
+
+    return RedirectToAction("Index");
+
+}
+
+
