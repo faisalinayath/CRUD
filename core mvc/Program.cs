@@ -1,38 +1,47 @@
-using BulkyBookWeb.Data;
-using Microsoft.EntityFrameworkCore;                                                //installed nuget package
+        <form method="post" asp-controller="Properties" asp-action="Create">
+            <div class="user-box">
+                <input type="text"  required="">
+                <label>Name Of The Property</label>
+            </div>
+            <div class="user-box">
+                <input type="text"  required="">
+                <label>Price</label>
+            </div>
+            <div class="user-box">
+                <input type="text" required="">
+                <label>Description</label>
+            </div>
+            <div class="user-box">
+                <input type="file" id="img" name="img" accept="image/*">
+              
+            </div>
+              <div class="user-box">
+                <input type="text" required="" >
+                <label>Seller Name</label>
 
-var builder = WebApplication.CreateBuilder(args);
+            </div>
+            <div class="user-box">
+                <input type="text" required="" >
+                <label>Seller Phone NUmber</label>
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection")
-    )); 
+            </div>
+            <div class="user-box">
+                <input type="text" required="">
+                <label>Seller Email Id</label>
 
-//builder.Services.AddDbContext<ApplicationDbContext>(); is a line of code that tells the application to create
-//and manage an instance of the ApplicationDbContext class, which is responsible for connecting to and interacting
-//with a database.
+                
+            </div>
+            <a href="#">
+                <span></span>
+                <span></span>
+                <span></span>
+                Submit
+            </a>
 
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.Run();
+            <a style="float:right" asp-controller="Properties" asp-action="index">
+                <span></span>
+                <span></span>
+                <span></span>
+                Return
+            </a>
+        </form>
