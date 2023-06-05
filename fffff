@@ -1,1 +1,62 @@
-a
+<form method="post" enctype="multipart/form-data" asp-controller="Properties" asp-action="Create">
+
+    <div class="user-box">
+
+        <input type="text" required asp-for="Name">
+
+        <label>Name Of The Property</label>
+
+    </div>
+
+    <div class="user-box">
+
+        <input type="text" required asp-for="Price">
+
+        <label>Price</label>
+
+    </div>
+
+    <div class="user-box">
+
+        <input type="text" required asp-for="Description">
+
+        <label>Description</label>
+
+    </div>
+
+    <div class="user-box">
+
+        <input type="file" accept="image/*" asp-for="Image">
+
+    </div>
+
+    <div class="user-box">
+
+        <input type="text" required asp-for="SellerName">
+
+        <label>Seller Name</label>
+
+    </div>
+
+    <div class="user-box">
+
+        <input type="text" required asp-for="SellerPhoneNumber">
+
+        <label>Seller Phone Number</label>
+
+    </div>
+
+    <div class="user-box">
+
+        <input type="text" required asp-for="SellerEmailId">
+
+        <label>Seller Email Id</label>
+
+    </div>
+
+    <button type="submit">Submit</button>
+
+    <a href="#" asp-controller="Properties" asp-action="Index">Return</a>
+
+</form>
+
