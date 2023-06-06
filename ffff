@@ -1,20 +1,10 @@
 
-@{
-    ViewData["Title"] = "Home";
-}
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
     <style>
-        .mySlides {
-            display: none;
-            width:100%;
-            height:100%;
-        }
-        .overlay {
+     
+      .overlay {
             position: absolute;
             bottom: 0;
             background: rgb(0, 0, 0);
@@ -37,9 +27,9 @@
 
     <div class="container d-flex align-items-center justify-content-center">
 
-    <div class="w3-content w3-section bbClass" style="width:800px; height:500px">
-        <div class="mySlides" style="width:100%; height:80%; position: relative;">
-            <img class="img" src="~/images/images.png" style="width:100%; height:100%" />
+        <div class="container d-flex align-items-center justify-content-center w3-content w3-section bbClass" style="width:100%;height:70%;position:relative;">
+        <div class="mySlides" style="width:100%; height:100%; position: relative;object-fit:cover;">
+            <img class="img" src="~/images/images.png" style="width:100%; height:0%" />
             <div class="overlay">
                 <h4><b>Sattva Park Cubix</b></h4>
                 <p>DEvanahali, Benguular</p>
@@ -50,8 +40,8 @@
 
 
 
-        <div class="mySlides" style="width:100%; height:80%; position: relative;">
-            <img class="img" src="~/images/images1.png" style="width:100%; height:100%" />
+            <div class="mySlides" style="width:100%;height:70%;position:relative;">
+                <img class="img" src="~/images/images1.png" style="width:100%; height:100%; position: relative;object-fit:cover;" />
             <div class="overlay">
                 <h4><b>Sattva Park Cubix</b></h4>
                 <p>DEvanahali, Benguular</p>
@@ -62,8 +52,8 @@
 
 
 
-        <div class="mySlides" style="width:100%; height:80%; position: relative;">
-            <img class="img" src="~/images/images2.png" style="width:100%; height:100%" />
+        <div class="mySlides" style="width:100%; height:70%; position: relative;">
+                <img class="img" src="~/images/images2.png" style="width:100%; height:100%; position: relative;object-fit:cover;" />
             <div class="overlay">
                 <h4><b>Sattva Park Cubix</b></h4>
                 <p>DEvanahali, Benguular</p>
@@ -78,9 +68,9 @@
 
 
 
-        <div class="mySlides" style="width:100%; height:80%; position: relative;">
+        <div class="mySlides" style="width:100%; height:70%; position: relative;">
 
-            <img src="~/images/images2.png" style="width:100%; height:100%" />
+                <img src="~/images/images2.png" style="width:100%; height:100%; position: relative;object-fit:cover;" />
 
             <div class="overlay">
 
@@ -100,6 +90,7 @@
 
 
 
+    </div>
     </div>
 
     <script>
@@ -122,4 +113,3 @@
     </script>
 </body>
 </html>
-
