@@ -1,48 +1,44 @@
- public IActionResult Login() 
+public IActionResult Login()
+{
+    if (User.Identity.IsAuthenticated)
+    {
+        return RedirectToAction("Index", "Employer");
+    }
+    return View();
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Login(Login obj)
+{
+    if (ModelState.IsValid)
+    {
+        var user = _db.Register.FirstOrDefault(u => u.Email == obj.Email && u.Password == obj.Password);
+
+        if (user != null)
         {
-            ClaimsPrincipal claimUser = HttpContext.User;
-            if (claimUser.Identity.IsAuthenticated)
+            HttpContext.Session.SetString("Email", user.Email);
+            HttpContext.Session.SetString("Name", user.Name);
+            string Phone_Number = (user.Phone).ToString();
+            HttpContext.Session.SetString("Phone", Phone_Number);
+
+            List<Claim> claims = new List<Claim>()
             {
-                return RedirectToAction("Index", "Employer");
-            }
-            return View();
-        }
+                new Claim(ClaimTypes.NameIdentifier, user.Email),
+                new Claim("OtherProperties", "ExampleRole")
+            };
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(Login obj)
-        {
-            if (ModelState.IsValid)
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            AuthenticationProperties properties = new AuthenticationProperties()
             {
-                var user = _db.Register.FirstOrDefault(u=>u.Email ==obj.Email && u.Password==obj.Password);
+                AllowRefresh = true
+            };
 
-                if (user != null) 
-                {
-                    HttpContext.Session.SetString("Email", user.Email);      //setting Session   1)Email
-                    HttpContext.Session.SetString("Name", user.Name);           //2) Name
-                    string Phone_Number = (user.Phone).ToString();  
-                    HttpContext.Session.SetString("Phone", Phone_Number);       //3) Phone Number
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
 
-                    List<Claim> claims = new List<Claim>()
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, obj.Email),
-                        new Claim("OtherProperties","ExampleRole")
-                    };
-
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
-                        CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    AuthenticationProperties properties = new AuthenticationProperties()
-                    {
-                        AllowRefresh = true
-                    };
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity), properties);
-
-                    return RedirectToAction("Index", "Main");
-
-                }
-            }
-            return View();
+            return RedirectToAction("Index", "Main");
         }
+    }
+    return View(obj);
+}
