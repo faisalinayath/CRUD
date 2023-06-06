@@ -1,44 +1,17 @@
-public IActionResult Login()
-{
-    if (User.Identity.IsAuthenticated)
-    {
-        return RedirectToAction("Index", "Employer");
-    }
-    return View();
-}
+An unhandled exception occurred while processing the request.
+InvalidOperationException: Session has not been configured for this application or request.
+Microsoft.AspNetCore.Http.DefaultHttpContext.get_Session()
 
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Login(Login obj)
-{
-    if (ModelState.IsValid)
-    {
-        var user = _db.Register.FirstOrDefault(u => u.Email == obj.Email && u.Password == obj.Password);
-
-        if (user != null)
-        {
-            HttpContext.Session.SetString("Email", user.Email);
-            HttpContext.Session.SetString("Name", user.Name);
-            string Phone_Number = (user.Phone).ToString();
-            HttpContext.Session.SetString("Phone", Phone_Number);
-
-            List<Claim> claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Email),
-                new Claim("OtherProperties", "ExampleRole")
-            };
-
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            AuthenticationProperties properties = new AuthenticationProperties()
-            {
-                AllowRefresh = true
-            };
-
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
-
-            return RedirectToAction("Index", "Main");
-        }
-    }
-    return View(obj);
-}
+Stack Query Cookies Headers Routing
+InvalidOperationException: Session has not been configured for this application or request.
+Microsoft.AspNetCore.Http.DefaultHttpContext.get_Session()
+PropDealsNew.Controllers.AuthController.Login(Login obj)
+Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor+TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, object controller, object[] arguments)
+System.Threading.Tasks.ValueTask<TResult>.get_Result()
+System.Runtime.CompilerServices.ValueTaskAwaiter<TResult>.GetResult()
+Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask<IActionResult> actionResultValueTask)
+Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, object state, bool isCompleted)
+Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(ref State next, ref Scope scope, ref object state, ref bool isCompleted)
+Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, object state, bool isCompleted)
