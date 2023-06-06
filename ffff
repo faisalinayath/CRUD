@@ -1,56 +1,11 @@
-        public IActionResult Login()
-        {
-            ClaimsPrincipal claimUser = HttpContext.User;
-            if (claimUser.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Main");
-            }
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(Login obj)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = _db.Register.FirstOrDefault(u=>u.Email ==obj.Email && u.Password==obj.Password);
-
-                
-
-                if (user != null) 
-                {
-                    System.Console.WriteLine("Hey");
-                    HttpContext.Session.SetString("Email", user.Email);      //setting Session   1)Email
-                    HttpContext.Session.SetString("Name", user.Name);           //2) Name
-                    string Phone_Number = (user.Phone).ToString();  
-                    HttpContext.Session.SetString("Phone", Phone_Number);       //3) Phone Number
-
-                    List<Claim> claims = new List<Claim>()
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, obj.Email),
-                        new Claim("OtherProperties","ExampleRole")
-                    };
-
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
-                        CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    AuthenticationProperties properties = new AuthenticationProperties()
-                    {
-                        AllowRefresh = true
-                    };
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity), properties);
-
-                    return RedirectToAction("Index", "Main");
-
-                }
-            }
-            ModelState.AddModelError("", "User Not Found");
-            return View(obj);
-        }
-
-
-
-url:--- https://localhost:7033/Auth/Login?ReturnUrl=%2FMain%2FIndex
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using JOB.ViewModel;
+using JOB.ViewModel;
+using Microsoft.EntityFrameworkCore;
+using JOB.Data;
+using JOB.Models;
+using Newtonsoft.Json;
+using System.Net.Mail;
