@@ -1,10 +1,124 @@
-builder.Services.AddSession();                                                          //added
+using JOB.Data;
+using JOB.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Session;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
-
-//added->authentication middleware
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+namespace JOB.Controllers
 {
-    option.LoginPath = "/Auth/index";
-    option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    
+    public class AuthController : Controller
+    {
+        public readonly ApplicationDbContext _db;
 
-});
+        
+        public AuthController(ApplicationDbContext db)
+        {
+            _db = db;
+           
+        }
+
+        public IActionResult Index()
+        {
+            ClaimsPrincipal claimUser= HttpContext.User;
+            if (claimUser.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index","Employer");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(Login obj)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _db.registers.FirstOrDefault(u => u.Username == obj.Username && u.Password == obj.Password);
+
+                if (user != null)
+                {
+                    HttpContext.Session.SetString("Email", user.Email);      //setting Session
+                    HttpContext.Session.SetString("UserName", user.Username);
+
+                    List<Claim> claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, obj.Username),
+                        new Claim("OtherProperties","ExampleRole")
+                    }; 
+
+                    ClaimsIdentity claimsIdentity=new ClaimsIdentity(claims,
+                        CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    AuthenticationProperties properties = new AuthenticationProperties()
+                    {
+                        AllowRefresh=true
+                    };
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity), properties);
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+            }
+            ModelState.AddModelError("", "User Not Found");
+            return View(obj);
+        }
+
+
+        public IActionResult Register() {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(Register obj)
+        {
+            if(ModelState.IsValid){
+                _db.registers.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index","Auth");
+        }
+
+        public IActionResult profile ()
+        {
+            var email = HttpContext.Session.GetString("Email");
+            var user_name = HttpContext.Session.GetString("UserName");
+            var viewModel = new MyViewModel { Email = email, Username = user_name };
+
+            return View(viewModel);
+        }
+
+
+        public IActionResult profile_insert()
+        {
+            return View();     
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult profile_insert(Company obj)
+        {
+
+                _db.companies.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("profile");
+           
+        }
+
+
+	}
+}
