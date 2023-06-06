@@ -1,115 +1,62 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-     
-      .overlay {
-            position: absolute;
-            bottom: 0;
-            background: rgb(0, 0, 0);
-            background: rgba(0, 0, 0, 0.5); /* Black see-through */
-            color: #f1f1f1;
-            width: 100%;
-            transition: .5s ease;
-            opacity: 0;
-            color: white;
-            font-size: 20px;
-            padding: 20px;
-            text-align: center;
-        }
-        .bbClass:hover .overlay {
-            opacity: 1;
-        }
-    </style>
-</head>
 <body>
+    <div class="LoginPageContainer">
+        <div class="LoginPageInnerContainer">
+            <div class="ImageContianer">
+                <img src="https://i.imgur.com/MYZd7of.png" class="GroupImage">
+            </div>
+            <div class="LoginFormContainer">
+                <div class="LoginFormInnerContainer">
+                    <div class="LogoContainer">
+                        <img src="https://www.pngkey.com/png/full/529-5291672_sample-logo-png-transparent-background.png" class="logo">
+                    </div>
+                    <header class="header">Log in</header>
+                    <header class="subHeader">Welcome to <b>animal planet!</b> Please Enter your Details</header>
 
-    <div class="container d-flex align-items-center justify-content-center">
+                    <form>
 
-        <div class="container d-flex align-items-center justify-content-center w3-content w3-section bbClass" style="width:100%;height:70%;position:relative;">
-        <div class="mySlides" style="width:100%; height:100%; position: relative;object-fit:cover;">
-            <img class="img" src="~/images/images.png" style="width:100%; height:0%" />
-            <div class="overlay">
-                <h4><b>Sattva Park Cubix</b></h4>
-                <p>DEvanahali, Benguular</p>
-                <h5><b>Rs. 43.63 L</b></h5>
-                <button class="btn btn-success">check Out</button>
+                        <div class="inputContainer">
+                            <label class="label" for="emailAddress">
+                                <img src="https://i.imgur.com/Hn13wvm.png" class="labelIcon"><span>
+                                    Email
+                                    Address*
+                                </span>
+                            </label>
+                            <input type="email" class="input" id="emailAddress" placeholder="Enter your Email Address">
+                        </div>
+                        <div class="inputContainer">
+                            <label class="label" for="emailAddress">
+                                <img src="https://i.imgur.com/g5SvdfG.png"
+                                     class="labelIcon"><span>Password*</span>
+                            </label>
+                            <input type="password" class="input" id="emailAddress" placeholder="Enter your Password">
+                        </div>
+                        
+                        
+                        <button class="LoginButton">Login</button>
+                    </form>
+                </div>
             </div>
         </div>
-
-
-
-            <div class="mySlides" style="width:100%;height:70%;position:relative;">
-                <img class="img" src="~/images/images1.png" style="width:100%; height:100%; position: relative;object-fit:cover;" />
-            <div class="overlay">
-                <h4><b>Sattva Park Cubix</b></h4>
-                <p>DEvanahali, Benguular</p>
-                <h5><b>Rs. 43.63 L</b></h5>
-                <button class="btn btn-success">check Out</button>
-            </div>
-        </div>
-
-
-
-        <div class="mySlides" style="width:100%; height:70%; position: relative;">
-                <img class="img" src="~/images/images2.png" style="width:100%; height:100%; position: relative;object-fit:cover;" />
-            <div class="overlay">
-                <h4><b>Sattva Park Cubix</b></h4>
-                <p>DEvanahali, Benguular</p>
-                <h5><b>Rs. 43.63 L</b></h5>
-                <button class="btn btn-success">check Out</button>
-
-            </div>
-
-
-
-        </div>
-
-
-
-        <div class="mySlides" style="width:100%; height:70%; position: relative;">
-
-                <img src="~/images/images2.png" style="width:100%; height:100%; position: relative;object-fit:cover;" />
-
-            <div class="overlay">
-
-                <h4><b>Sattva Park Cubix</b></h4>
-
-                <p>DEvanahali, Benguular</p>
-
-                <h5><b>Rs. 43.63 L</b></h5>
-
-                <button class="btn btn-success">check Out</button>
-
-            </div>
-
-
-
-        </div>
-
-
-
-    </div>
     </div>
 
-    <script>
-        var myIndex = 0;
-        carousel();
-
-
-
-        function carousel() {
-            var i;
-            var x = document.getElementsByClassName("mySlides");
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            myIndex++;
-            if (myIndex > x.length) { myIndex = 1 }
-            x[myIndex - 1].style.display = "block";
-            setTimeout(carousel, 2000); // Change image every 2 seconds
-        }
-    </script>
 </body>
-</html>
+
+
+
+
+//register.cs
+
+namespace PropDealsNew.Models
+{
+    public class Register
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public long Phone { get; set; }
+        public string ConfirmPassword { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsRemember { get; set; }
+    }
+}
