@@ -1,3 +1,48 @@
-create a web api to store the info about a hotel and its menu items.
-create an angular app that consumes this web api and get the menu items, allow the user to add itemsto his/her cart and finally generate the bill for the billed items 
-P.S. This web site is for a single hotel and the scope of multiple hotels is not here 
+ public IActionResult Login() 
+        {
+            ClaimsPrincipal claimUser = HttpContext.User;
+            if (claimUser.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Employer");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(Login obj)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _db.Register.FirstOrDefault(u=>u.Email ==obj.Email && u.Password==obj.Password);
+
+                if (user != null) 
+                {
+                    HttpContext.Session.SetString("Email", user.Email);      //setting Session   1)Email
+                    HttpContext.Session.SetString("Name", user.Name);           //2) Name
+                    string Phone_Number = (user.Phone).ToString();  
+                    HttpContext.Session.SetString("Phone", Phone_Number);       //3) Phone Number
+
+                    List<Claim> claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, obj.Email),
+                        new Claim("OtherProperties","ExampleRole")
+                    };
+
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
+                        CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    AuthenticationProperties properties = new AuthenticationProperties()
+                    {
+                        AllowRefresh = true
+                    };
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity), properties);
+
+                    return RedirectToAction("Index", "Main");
+
+                }
+            }
+            return View();
+        }
