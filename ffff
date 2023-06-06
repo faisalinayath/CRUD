@@ -9,54 +9,50 @@
                     <div class="LogoContainer">
                         <img src="https://www.pngkey.com/png/full/529-5291672_sample-logo-png-transparent-background.png" class="logo">
                     </div>
-                    <header class="header">Log in</header>
-                    <header class="subHeader">Welcome to <b>animal planet!</b> Please Enter your Details</header>
+                    <header class="header">Register</header>
+                    <header class="subHeader">Welcome to <b>animal planet!</b> Please enter your details</header>
 
                     <form>
+                        <div class="inputContainer">
+                            <label class="label" for="name">
+                                <img src="https://i.imgur.com/Hn13wvm.png" class="labelIcon">
+                                <span>Name*</span>
+                            </label>
+                            <input type="text" class="input" id="name" placeholder="Enter your Name">
+                        </div>
+                        <div class="inputContainer">
+                            <label class="label" for="email">
+                                <img src="https://i.imgur.com/Hn13wvm.png" class="labelIcon">
+                                <span>Email Address*</span>
+                            </label>
+                            <input type="email" class="input" id="email" placeholder="Enter your Email Address">
+                        </div>
+                        <div class="inputContainer">
+                            <label class="label" for="password">
+                                <img src="https://i.imgur.com/g5SvdfG.png" class="labelIcon">
+                                <span>Password*</span>
+                            </label>
+                            <input type="password" class="input" id="password" placeholder="Enter your Password">
+                        </div>
+                        <div class="inputContainer">
+                            <label class="label" for="confirmPassword">
+                                <img src="https://i.imgur.com/g5SvdfG.png" class="labelIcon">
+                                <span>Confirm Password*</span>
+                            </label>
+                            <input type="password" class="input" id="confirmPassword" placeholder="Confirm your Password">
+                        </div>
+                        <div class="inputContainer">
+                            <label class="label" for="phone">
+                                <img src="https://i.imgur.com/Hn13wvm.png" class="labelIcon">
+                                <span>Phone</span>
+                            </label>
+                            <input type="tel" class="input" id="phone" placeholder="Enter your Phone number">
+                        </div>
 
-                        <div class="inputContainer">
-                            <label class="label" for="emailAddress">
-                                <img src="https://i.imgur.com/Hn13wvm.png" class="labelIcon"><span>
-                                    Email
-                                    Address*
-                                </span>
-                            </label>
-                            <input type="email" class="input" id="emailAddress" placeholder="Enter your Email Address">
-                        </div>
-                        <div class="inputContainer">
-                            <label class="label" for="emailAddress">
-                                <img src="https://i.imgur.com/g5SvdfG.png"
-                                     class="labelIcon"><span>Password*</span>
-                            </label>
-                            <input type="password" class="input" id="emailAddress" placeholder="Enter your Password">
-                        </div>
-                        
-                        
-                        <button class="LoginButton">Login</button>
+                        <button class="LoginButton">Register</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
-
-
-
-
-//register.cs
-
-namespace PropDealsNew.Models
-{
-    public class Register
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public long Phone { get; set; }
-        public string ConfirmPassword { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsRemember { get; set; }
-    }
-}
