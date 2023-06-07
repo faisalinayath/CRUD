@@ -1,56 +1,5 @@
-public class AuthController : Controller
-{
-    private readonly ApplicationDbContext _db;
-
-    public AuthController(ApplicationDbContext db)
-    {
-        _db = db;
-    }
-
-    public IActionResult Login()
-    {
-        if (User.Identity.IsAuthenticated)
+ public async Task<IActionResult> Logout()
         {
-            return RedirectToAction("Index", "Main");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index","Auth");
         }
-
-        return View();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(Login obj)
-    {
-        if (ModelState.IsValid)
-        {
-            var user = await _db.Register.FirstOrDefaultAsync(u => u.Email == obj.Email && u.Password == obj.Password);
-
-            if (user != null)
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, obj.Email),
-                    new Claim("OtherProperties", "ExampleRole")
-                };
-
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var authenticationProperties = new AuthenticationProperties
-                {
-                    AllowRefresh = true
-                };
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity), authenticationProperties);
-
-                HttpContext.Session.SetString("Email", user.Email);
-                HttpContext.Session.SetString("Name", user.Name);
-                HttpContext.Session.SetString("Phone", user.Phone.ToString());
-
-                return RedirectToAction("Index", "Main");
-            }
-        }
-
-        ModelState.AddModelError("", "User Not Found");
-        return View(obj);
-    }
-}
