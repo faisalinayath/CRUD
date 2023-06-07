@@ -1,11 +1,19 @@
-@{
-    // Retrieve session variables
-    string email = HttpContext.Session.GetString("Email");
-    string name = HttpContext.Session.GetString("Name");
-    string phone = HttpContext.Session.GetString("Phone");
+//controller:-
+namespace PropDealsNew.Controllers
+{
+    [Authorize]
+    public class MainController : Controller
+    {
+       
+        public IActionResult Index()
+        {
+            string Email = DefaultHttpContext.GetString("Email");
+            return View(Email);
+        }
+
+
+    }
 }
 
-<!-- Display the session variable values -->
-<p>Email: @email</p>
-<p>Name: @name</p>
-<p>Phone: @phone</p>
+view:-
+
