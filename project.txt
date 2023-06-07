@@ -1,15 +1,9 @@
-@int 1=0
-                    @foreach(var obj in Model.PropertyList)
-                    {
-                        @i
-                            =i+1
-                                        if (if== 4)
-                            {
-                                break
-                                    }
-                            else {
-                                <div class="card shadow mb-5 rounded">
-                                    <img class="card-img-top" src="~/@obj.Image_Path" alt="Card image cap">
+       <div class="carousel-item">
+                <div class="card-group">
+
+                    @for(int i=0;i<Model.PropertyList.Length;i++){
+                    <div class="card shadow mb-5 rounded">
+                        <img class="card-img-top" src="~/Images/room (1).jpg" alt="Card image cap">
                         <div class="card-body">
                             <h3>Sattva Park Cubix</h3>
                             <p>Devanahalli, Bengaluru</p>
@@ -19,7 +13,6 @@
                             </div>
                         </div>
                     </div>
-                    }
-                    }
+                   }
                 </div>
             </div>
