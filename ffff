@@ -1,37 +1,6 @@
-//controller:-
-
-
-namespace PropDealsNew.Controllers
-{
-    [Authorize]
-    public class MainController : Controller
-    {
-       
         public IActionResult Index()
         {
-            string Email = HttpContext.Session.GetString("Email");
-            return View(Email);
+            object email = HttpContext.Session.GetString("Email");
+            List<Property> propertyList = _db.Property.ToList();
+            return View(propertyList,email);
         }
-
-
-    }
-}
-
-view:-
-
-
-@model string
-
-<!DOCTYPE html>
-<html>
-<head>
-
-    <h1>@Model</h1>
-    
-    
-   Error:-
-   An unhandled exception occurred while processing the request.
-InvalidOperationException: The view 'faisalinayath16@gmail.com' was not found. The following locations were searched:
-/Views/Main/faisalinayath16@gmail.com.cshtml
-/Views/Shared/faisalinayath16@gmail.com.cshtml
-Microsoft.AspNetCore.Mvc.ViewEngines.ViewEngineResult.EnsureSuccessful(IEnumerable<string> originalLocations)
