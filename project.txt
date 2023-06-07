@@ -1,26 +1,43 @@
-controllers:- 
- public IActionResult Create()
+//  cONTROLLER:-
+  
+  [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Property obj)
         {
-            string email = HttpContext.Session.GetString("Email");
-            string name = HttpContext.Session.GetString("Name");
-            string phone = HttpContext.Session.GetString("Phone");
-            Property propertyObj = new Property();
-
-
-            ViewModel viewModel = new ViewModel
+            if (ModelState.IsValid)
             {
-                Email = email,
-                Phone = phone,
-                Name = name,
-                property = propertyObj
-            };
-            return View(viewModel);
+                if (obj.Photo != null)
+                {
+                    string folder = "ImagesUpload/";
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + obj.Photo.FileName;
+                    string serverFolder = Path.Combine(_hostEnvironment.WebRootPath, folder);
+                    string filePath = Path.Combine(serverFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await obj.Photo.CopyToAsync(fileStream);
+                    }
+
+                    // Update the Image_Path property of the obj
+                    obj.Image_Path = Path.Combine(folder, uniqueFileName);
+
+                    obj.Seller_Name = HttpContext.Session.GetString("Name");
+                    obj.Seller_Phone = HttpContext.Session.GetString("Phone");
+                    obj.Seller_Email_Id = HttpContext.Session.GetString("Email");
+
+                }
+
+                _db.Property.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(obj);
         }
         
-        View:-
+        vIEW:-
         
-        @model ViewModel
-               <form method="post" enctype="multipart/form-data" asp-controller="Properties" asp-action="Create">
+         <form method="post" enctype="multipart/form-data" asp-controller="Properties" asp-action="Create">
 
             <div class="user-box">
 
@@ -52,7 +69,7 @@ controllers:-
 
             </div>
 
-            <div class="user-box">
+           @* <div class="user-box">
 
                 <input type="text" required asp-for="Seller_Name">
 
@@ -74,11 +91,10 @@ controllers:-
 
                 <label>Seller Email Id</label>
 
-            </div>
+            </div>*@
 
             <button type="submit">Submit</button>
 
             <a asp-controller="Properties" asp-action="Index">Return</a>
 
         </form>
-
