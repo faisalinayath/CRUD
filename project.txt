@@ -1,18 +1,19 @@
        <div class="carousel-item">
-                <div class="card-group">
-
-                    @for(int i=0;i<Model.PropertyList.Length;i++){
-                    <div class="card shadow mb-5 rounded">
-                        <img class="card-img-top" src="~/Images/room (1).jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h3>Sattva Park Cubix</h3>
-                            <p>Devanahalli, Bengaluru</p>
-                            <p>Rs. 43.63 L</p>
-                            <div>
-                                <button type="button" class="btn btn-primary mt-3" style="border-radius:50px;"><b>View</b></button>
-                            </div>
-                        </div>
+    <div class="card-group">
+        @for (int i = Model.PropertyList.Length - 1; i >= Model.PropertyList.Length - 3; i--)
+        {
+            var property = Model.PropertyList[i]; // Access the element from the list
+            <div class="card shadow mb-5 rounded">
+                <img class="card-img-top" src="~/Images/room (1).jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h3>@property.Title</h3>
+                    <p>@property.Location</p>
+                    <p>Rs. @property.Price</p>
+                    <div>
+                        <button type="button" class="btn btn-primary mt-3" style="border-radius:50px;"><b>View</b></button>
                     </div>
-                   }
                 </div>
             </div>
+        }
+    </div>
+</div>
