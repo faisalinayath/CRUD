@@ -1,10 +1,25 @@
-[HttpPost]
-public IActionResult Search(string query)
-{
-    var matchingProperties = _db.Properties
-        .Where(p => p.Name.Contains(query))
-        .ToList();
-
-    // Pass the matching properties to the view
-    return View(matchingProperties);
-}
+@int 1=0
+                    @foreach(var obj in Model.PropertyList)
+                    {
+                        @i
+                            =i+1
+                                        if (if== 4)
+                            {
+                                break
+                                    }
+                            else {
+                                <div class="card shadow mb-5 rounded">
+                                    <img class="card-img-top" src="~/@obj.Image_Path" alt="Card image cap">
+                        <div class="card-body">
+                            <h3>Sattva Park Cubix</h3>
+                            <p>Devanahalli, Bengaluru</p>
+                            <p>Rs. 43.63 L</p>
+                            <div>
+                                <button type="button" class="btn btn-primary mt-3" style="border-radius:50px;"><b>View</b></button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    }
+                </div>
+            </div>
