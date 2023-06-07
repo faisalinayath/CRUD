@@ -1,27 +1,30 @@
- using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using YourProject.Models; // Replace with the appropriate namespace for your project
-
-public class PropertiesController : Controller
-{
-    private readonly YourDbContext _dbContext; // Replace YourDbContext with the actual name of your DbContext
-
-    public PropertiesController(YourDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
-    [HttpPost]
-    public IActionResult Search(string query)
-    {
-        // Perform the search in the database
-        var matchingProperties = _dbContext.Properties
+Controller:- [
+ HttpPost]
+        public IActionResult Search(String query)
+        {
+            var matchingProperties = _db.Property      
             .Where(p => EF.Functions.Like(p.Name, $"%{query}%") ||
                         EF.Functions.Like(p.Price.ToString(), $"%{query}%") ||
                         EF.Functions.Like(p.Description, $"%{query}%"))
             .ToList();
 
-        // Pass the matching properties to the view
-        return View(matchingProperties);
-    }
+            // Pass the matching properties to the view
+            return View(matchingProperties);
+
+        }
+        
+    View:- 
+    @model List<Property>
+@{
+    ViewData["Title"] = "Search";
 }
+
+<h1>Search</h1>
+
+@foreach(var obj in Model)
+{
+    <ul>
+        <li>@obj.Name</li>
+        <li>@obj.Description</li>
+        <li>@obj.Price</li>
+    </ul>
