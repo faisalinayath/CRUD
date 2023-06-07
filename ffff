@@ -1,4 +1,6 @@
 //controller:-
+
+
 namespace PropDealsNew.Controllers
 {
     [Authorize]
@@ -7,7 +9,7 @@ namespace PropDealsNew.Controllers
        
         public IActionResult Index()
         {
-            string Email = DefaultHttpContext.GetString("Email");
+            string Email = HttpContext.Session.GetString("Email");
             return View(Email);
         }
 
@@ -17,3 +19,19 @@ namespace PropDealsNew.Controllers
 
 view:-
 
+
+@model string
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <h1>@Model</h1>
+    
+    
+   Error:-
+   An unhandled exception occurred while processing the request.
+InvalidOperationException: The view 'faisalinayath16@gmail.com' was not found. The following locations were searched:
+/Views/Main/faisalinayath16@gmail.com.cshtml
+/Views/Shared/faisalinayath16@gmail.com.cshtml
+Microsoft.AspNetCore.Mvc.ViewEngines.ViewEngineResult.EnsureSuccessful(IEnumerable<string> originalLocations)
