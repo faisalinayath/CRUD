@@ -1,30 +1,12 @@
-Controller:- [
- HttpPost]
-        public IActionResult Search(String query)
-        {
-            var matchingProperties = _db.Property      
-            .Where(p => EF.Functions.Like(p.Name, $"%{query}%") ||
-                        EF.Functions.Like(p.Price.ToString(), $"%{query}%") ||
-                        EF.Functions.Like(p.Description, $"%{query}%"))
-            .ToList();
-
-            // Pass the matching properties to the view
-            return View(matchingProperties);
-
-        }
-        
-    View:- 
-    @model List<Property>
-@{
-    ViewData["Title"] = "Search";
-}
-
-<h1>Search</h1>
-
-@foreach(var obj in Model)
+[HttpPost]
+public IActionResult Search(string query)
 {
-    <ul>
-        <li>@obj.Name</li>
-        <li>@obj.Description</li>
-        <li>@obj.Price</li>
-    </ul>
+    var matchingProperties = _db.Property      
+        .Where(p => p.Name.Contains(query) ||
+                    p.Description.Contains(query) ||
+                    p.Price.ToString().Contains(query))
+        .ToList();
+
+    // Pass the matching properties to the view
+    return View(matchingProperties);
+}
