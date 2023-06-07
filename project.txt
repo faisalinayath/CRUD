@@ -1,5 +1,82 @@
- public async Task<IActionResult> Logout()
+controller:- 
+ public IActionResult Create()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index","Auth");
+            string email = HttpContext.Session.GetString("Email");
+            string name = HttpContext.Session.GetString("Name");
+            string phone = HttpContext.Session.GetString("Phone");
+
+
+
+            ViewModel viewModel = new ViewModel
+            {
+                Email = email,
+                Phone = phone,
+                Name = name
+            };
+            return View(viewModel);
         }
+        
+        
+ View:-
+ @model ViewModel,Property
+         <form method="post" enctype="multipart/form-data" asp-controller="Properties" asp-action="Create">
+
+            <div class="user-box">
+
+                <input type="text" required asp-for="Name">
+
+                <label>Name Of The Property</label>
+
+            </div>
+
+            <div class="user-box">
+
+                <input type="text" required asp-for="Price">
+
+                <label>Price</label>
+
+            </div>
+
+            <div class="user-box">
+
+                <input type="text" required asp-for="Description">
+
+                <label>Description</label>
+
+            </div>
+
+            <div class="user-box">
+
+                <input type="file" accept="image/*" asp-for="Photo">
+
+            </div>
+
+            <div class="user-box">
+
+                <input type="text" required asp-for="Seller_Name">
+
+                <label>Seller Name</label>
+
+            </div>
+
+            <div class="user-box">
+
+                <input type="text" required asp-for="Seller_Phone">
+
+                <label>Seller Phone Number</label>
+
+            </div>
+
+            <div class="user-box">
+
+                <input type="text" required asp-for="Seller_Email_Id">
+
+                <label>Seller Email Id</label>
+
+            </div>
+
+            <button type="submit">Submit</button>
+
+            <a asp-controller="Properties" asp-action="Index">Return</a>
+
+        </form>
