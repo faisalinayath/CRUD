@@ -1,25 +1,26 @@
-controller:- 
+controllers:- 
  public IActionResult Create()
         {
             string email = HttpContext.Session.GetString("Email");
             string name = HttpContext.Session.GetString("Name");
             string phone = HttpContext.Session.GetString("Phone");
-
+            Property propertyObj = new Property();
 
 
             ViewModel viewModel = new ViewModel
             {
                 Email = email,
                 Phone = phone,
-                Name = name
+                Name = name,
+                property = propertyObj
             };
             return View(viewModel);
         }
         
+        View:-
         
- View:-
- @model ViewModel,Property
-         <form method="post" enctype="multipart/form-data" asp-controller="Properties" asp-action="Create">
+        @model ViewModel
+               <form method="post" enctype="multipart/form-data" asp-controller="Properties" asp-action="Create">
 
             <div class="user-box">
 
@@ -80,3 +81,4 @@ controller:-
             <a asp-controller="Properties" asp-action="Index">Return</a>
 
         </form>
+
