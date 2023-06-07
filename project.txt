@@ -2,7 +2,7 @@
 public IActionResult Search(string query)
 {
     var matchingProperties = _db.Properties
-        .FromSqlInterpolated($"SELECT * FROM Properties WHERE Name LIKE '%{query}%'")
+        .Where(p => EF.Functions.Like(p.Name, $"%{query}%"))
         .ToList();
 
     // Pass the matching properties to the view
