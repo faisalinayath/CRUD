@@ -1,19 +1,10 @@
 [HttpPost]
 public IActionResult Search(string query)
 {
-    var matchingProperties = _db.Property      
-        .Where(p => EF.Functions.Like(p.Name, $"%{query}%") ||
-                    EF.Functions.Like(p.Description, $"%{query}%") ||
-                    EF.Functions.Like(p.Price.ToString(), $"%{query}%"))
+    var matchingProperties = _db.Properties
+        .FromSqlInterpolated($"SELECT * FROM Properties WHERE Name LIKE '%{query}%'")
         .ToList();
-
-    // Filter out properties that don't have any partial match
-    matchingProperties = matchingProperties.Where(p => p.Name.Contains(query) ||
-                                                       p.Description.Contains(query) ||
-                                                       p.Price.ToString().Contains(query))
-                                           .ToList();
 
     // Pass the matching properties to the view
     return View(matchingProperties);
 }
-
