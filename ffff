@@ -1,44 +1,11 @@
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(Login obj)
-    {
-        if (ModelState.IsValid)
-        {
-            var user = await _db.Register.FirstOrDefaultAsync(u => u.Email == obj.Email && u.Password == obj.Password);
-
-            if (user != null)
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, obj.Email),
-                    new Claim("OtherProperties", "ExampleRole")
-                };
-
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var authenticationProperties = new AuthenticationProperties
-                {
-                    AllowRefresh = true
-                };
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity), authenticationProperties);
-
-                HttpContext.Session.SetString("Email", user.Email);
-                HttpContext.Session.SetString("Name", user.Name);
-                HttpContext.Session.SetString("Phone", user.Phone.ToString());
-
-
-                return RedirectToAction("Index", "Main");
-            }
-        }
-
-        ModelState.AddModelError("", "User Not Found");
-        return View(obj);
-    }
-
-    public async Task<IActionResult> Logout()
-    {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Login", "Auth");
-    }
+@{
+    // Retrieve session variables
+    string email = HttpContext.Session.GetString("Email");
+    string name = HttpContext.Session.GetString("Name");
+    string phone = HttpContext.Session.GetString("Phone");
 }
+
+<!-- Display the session variable values -->
+<p>Email: @email</p>
+<p>Name: @name</p>
+<p>Phone: @phone</p>
