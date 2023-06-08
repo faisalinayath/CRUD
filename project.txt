@@ -1,65 +1,41 @@
 [HttpPost]
-
 [ValidateAntiForgeryToken]
-
 public async Task<IActionResult> Login(Login obj)
-
 {
-
     if (ModelState.IsValid)
-
     {
-
         var user = await _db.Register.FirstOrDefaultAsync(u => u.Email == obj.Email && u.Password == obj.Password);
 
         if (user != null)
-
         {
-
             var claims = new List<Claim>
-
             {
-
                 new Claim(ClaimTypes.NameIdentifier, obj.Email),
-
                 new Claim("OtherProperties", "ExampleRole")
-
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
             var authenticationProperties = new AuthenticationProperties
-
             {
-
                 AllowRefresh = true
-
             };
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-
                 new ClaimsPrincipal(claimsIdentity), authenticationProperties);
 
             HttpContext.Session.SetString("Id", user.Id.ToString());
-
             HttpContext.Session.SetString("Email", user.Email);
-
             HttpContext.Session.SetString("Name", user.Name);
-
             HttpContext.Session.SetString("Phone", user.Phone.ToString());
 
-            // Redirect to OTP action with the ID from session data
-
-            return RedirectToAction("OTP", new { id = user.Id });
-
+            // Redirect to a custom URL with the ID as a query parameter
+            string customUrl = $"https://example.com/custom-url?id={user.Id}";
+            return new RedirectResult(customUrl);
         }
-
     }
 
     ModelState.AddModelError("", "User Not Found");
-
     return View(obj);
-
 }
 
-       
+         
