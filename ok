@@ -1,52 +1,78 @@
-//link
- <a asp-controller="first" asp-action="edit" asp-route-id="@x.Id"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-  
-  //controller
-       public IActionResult Edit()
-        {
-            return View();
-        }
-        
-        //view
-        
-        @model LoanApp
+@model ViewModel
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Home Page";
 }
 
-<form method="post" asp-controller="first" asp-action="create">
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class="text-primary">Create Category</h2>
-        </div>
-        <div asp-validation-summary="All">
-        </div>
-        <div class="mb-3">
-            <label asp-for="Applicant">Applicant</label>
-            <input type="text" asp-for="Applicant" class="form-control" />
 
-        </div>
-        <div class="mb-3">
-            <label asp-for="AmountOfLoan">Amount Of Loan</label>
-            <input type="text" asp-for="AmountOfLoan" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label asp-for="KindOfLoan">Kind Of Loan</label>
-            <input type="text" asp-for="KindOfLoan" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label asp-for="IsEligible">Is Eligible</label>
-            <input type="text" asp-for="IsEligible" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label asp-for="FailureDescription">Failure Description</label>
-            <input type="text" asp-for="FailureDescription" class="form-control">
-        </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-primary">SUBMIT</button>
-            <a asp-controller="category" asp-action="index" class="btn btn-secondary">BACK TO INDEX</a>
+
+
+
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="~/css/stylesheet.css" rel="stylesheet" />
+</head>
+<body>
+
+
+
+    <div>
+
+        <a asp-asp-controller="Properties" asp-action="create" style="text-decoration:none"> <button class="btn btn-dark" style="margin-left:80px;">Add Properties (+)</button></a>
+      
+       
+        <div class="container bcontent">
+            <hr />
+
+            @foreach (var obj in Model.PropertyList)
+            {
+                @if (Model.Email == obj.Seller_Email_Id)
+                {
+                    <div class="card" style="width: auto;">
+                        <div class="row no-gutters">
+                    <div class="col-sm-5">
+
+
+                        <img class="card-img" src="~/@obj.Image_Path" />
+
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="card-body">
+                            <h2 class="card-title" style=" font-family: 'Josefin Sans', sans-serif;">@obj.Name</h2>
+                            <p class="card-text" style="font-family:'Urbanist';">
+                            @obj.Description
+                            </p>
+                            <h4 style="font-family:'Urbanist'; color: black; font-weight:900;">Price: ₹@obj.Price</h4>
+                           
+                            <p style="font-family:'Urbanist';">Name : @obj.Seller_Name</p>
+                            <p style="font-family:'Urbanist';">Phone Number: @obj.Seller_Phone</p>
+                            <p style="font-family:'Urbanist';">Email Addresss: @obj.Seller_Email_Id</p>
+
+
+
+
+
+                            <a asp-asp-controller="Properties" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-dark">Edit Property</a>
+                            <a  class="btn btn-dark" style=" margin:5px;" asp-asp-controller="Properties" asp-action="delete" asp-route-id="@obj.Id">Delete Property</a>
+                                    <a asp-controller="properties" asp-action="advertise" asp-route-id="@obj.Id" style="text-decoration:none"><button style="background-color:#c6ff1a; padding:5px 15px; border:none;border-radius:30px; ">Advertise</button></a>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+                    
+            }
+            }
+
         </div>
     </div>
-</form>
 
 
+   
+    </div>
+
+
+</body>
+</html>
