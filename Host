@@ -1,13 +1,36 @@
-public static void Main(string[] args)
+mespace chat
 {
-    // ...
-
-    var host = CreateHostBuilder(args).Build();
-    using (var scope = host.Services.CreateScope())
+    public class Program
     {
-        var serviceProvider = scope.ServiceProvider;
-        var hubContext = serviceProvider.GetRequiredService<IHubContext<ChatHub>>();
-        hubContext.Clients.All.SendAsync("ReceiveMessage", "System", "Chat application started.");
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.Run();
+        }
     }
-    host.Run();
 }
