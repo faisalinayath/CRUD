@@ -1,0 +1,13 @@
+public static void Main(string[] args)
+{
+    // ...
+
+    var host = CreateHostBuilder(args).Build();
+    using (var scope = host.Services.CreateScope())
+    {
+        var serviceProvider = scope.ServiceProvider;
+        var hubContext = serviceProvider.GetRequiredService<IHubContext<ChatHub>>();
+        hubContext.Clients.All.SendAsync("ReceiveMessage", "System", "Chat application started.");
+    }
+    host.Run();
+}
